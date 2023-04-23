@@ -1,0 +1,746 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WessonChen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Class类 ES6提供了更接近传统语言的写法，引入了Class（类）这个概念，作为对象的模板。通过class关键字，可以定义类。基本上，ES6的class可以看作只是一个语法糖，它的绝大部分功能，ES5都可以做到，新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。上面的代码用ES6的“类”改写，就是下面这样。12345678910&#x2F;&#x2F; 定义类class Person &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习TypeScript 8 (Class类)">
+<meta property="og:url" content="http://example.com/2022/02/24/%E5%AD%A6%E4%B9%A0TypeScript%208%20(Class%E7%B1%BB)/index.html">
+<meta property="og:site_name" content="WessonChen">
+<meta property="og:description" content="Class类 ES6提供了更接近传统语言的写法，引入了Class（类）这个概念，作为对象的模板。通过class关键字，可以定义类。基本上，ES6的class可以看作只是一个语法糖，它的绝大部分功能，ES5都可以做到，新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。上面的代码用ES6的“类”改写，就是下面这样。12345678910&#x2F;&#x2F; 定义类class Person &amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_01.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_02.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_03.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_04.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_05.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_06.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_07.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_08.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_09.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_10.png">
+<meta property="og:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_11.png">
+<meta property="article:published_time" content="2022-02-24T15:54:00.000Z">
+<meta property="article:modified_time" content="2023-04-23T14:34:12.443Z">
+<meta property="article:author" content="WessonChen">
+<meta property="article:tag" content="TypeScript">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_01.png">
+  
+  
+  
+  <title>学习TypeScript 8 (Class类) - WessonChen</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WessonC</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="学习TypeScript 8 (Class类)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-24 23:54" pubdate>
+          2022年2月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">学习TypeScript 8 (Class类)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Class类"><a href="#Class类" class="headerlink" title="Class类"></a>Class类</h1><ul>
+<li>ES6提供了更接近传统语言的写法，引入了Class（类）这个概念，作为对象的模板。通过class关键字，可以定义类。基本上，ES6的class可以看作只是一个语法糖，它的绝大部分功能，ES5都可以做到，新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。上面的代码用ES6的“类”改写，就是下面这样。<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">// 定义类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>  <br>  &#125;<br>  <span class="hljs-title function_">run</span>(<span class="hljs-params"></span>) &#123;<br>  <br>  &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="1-在TypeScript中定义类"><a href="#1-在TypeScript中定义类" class="headerlink" title="1. 在TypeScript中定义类"></a>1. 在TypeScript中定义类</h3><p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_01.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>在TypeScript中是不允许直接在constructor 定义变量的，需要在constructor上面先声明</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_02.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>这样引发了第二个问题你如果了定义了变量不用，也会报错；通常是给个默认值 或者 进行赋值(此处关闭了Eslint检查，所以没报错)</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_03.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>到这，恭喜你已经学会了在class中如何定义变量了。</p>
+</li>
+</ul>
+<h3 id="2-类的修饰符"><a href="#2-类的修饰符" class="headerlink" title="2.类的修饰符"></a>2.类的修饰符</h3><ul>
+<li><p>总有有3个：</p>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public</td>
+<td>可以让定义的变量在内部访问，也可以外部访问[^注释1]</td>
+</tr>
+<tr>
+<td>private</td>
+<td>代表定义的变量私有的只能在内部访问，不能在外部访问</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>代表定义变量是私有的，只能在内部和继承的子类中访问</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>使用<code>public </code>修饰符：可以让你定义的变量，内部访问，也可以外部访问；如果不写默认就是public</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_04.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>使用 <code>private</code>修饰符：代表定义的变量私有的只能在内部访问，不能在外部访问</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_05.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>使用 <code>private</code>修饰符：代表定义的变量私有的只能在内部访问，不能在外部访问</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_06.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>使用 <code>protected</code>修饰符：代表定义的变量私有的只能在内部和继承的子类中访问，不能在外部访问</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_07.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<h3 id="3-static-静态属性-和-静态方法"><a href="#3-static-静态属性-和-静态方法" class="headerlink" title="3. static 静态属性 和 静态方法"></a>3. static 静态属性 和 静态方法</h3><ul>
+<li><p>使用static定义属性是，不可通过this去访问，只能通过类名去调用</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_08.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<!---->
+
+<ul>
+<li><p>static 静态函数 同样也是不能通过<code>this</code>去调用，也是通过类名去调用</p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_09.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>需注意的是： 如果两个函数都是static 静态的是可以通过this互相调用<br><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_10.png" srcset="/img/loading.gif" lazyload></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="interface定义类"><a href="#interface定义类" class="headerlink" title="interface定义类"></a>interface定义类</h3><ul>
+<li><p>TypeScript中interface 定义类，使用关键字 <code>implements</code> ，后面跟interface的名字多个用逗号隔开，继承还是用<code>extends</code></p>
+<p><img src="https://gitee.com/wessonc/image-warehouse/raw/master/TypeScript/image/Class%E7%B1%BB/image_11.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PersonClass</span> &#123;<br>    <span class="hljs-title function_">get</span>(<span class="hljs-attr">type</span>: <span class="hljs-built_in">boolean</span>): <span class="hljs-built_in">boolean</span><br>&#125;<br> <br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PersonClass2</span>&#123;<br>    <span class="hljs-title function_">set</span>():<span class="hljs-built_in">void</span>,<br>    <span class="hljs-attr">asd</span>:<span class="hljs-built_in">string</span><br>&#125;<br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = <span class="hljs-string">&quot;123&quot;</span><br>    &#125;<br>&#125;<br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">A</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">PersonClass</span>,<span class="hljs-title class_">PersonClass2</span> &#123;<br>    <span class="hljs-attr">asd</span>: <span class="hljs-built_in">string</span><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">super</span>()<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">asd</span> = <span class="hljs-string">&#x27;123&#x27;</span><br>    &#125;<br>    <span class="hljs-title function_">get</span>(<span class="hljs-params"><span class="hljs-keyword">type</span>:<span class="hljs-built_in">boolean</span></span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">type</span><br>    &#125;<br>    set () &#123;<br> <br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5-抽象类"><a href="#5-抽象类" class="headerlink" title="5.抽象类"></a>5.抽象类</h3><ul>
+<li>应用场景：<ul>
+<li>如果你写的类实例化之后毫无用处此时我可以把他定义为抽象类</li>
+<li>或者你也可以把他作为一个基类 -&gt; 通过继承一个派生类去实现基类的一些方法</li>
+</ul>
+</li>
+<li>例子<ul>
+<li>下面这段代码会报错抽象类无法被实例化<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-attr">name</span>:<span class="hljs-built_in">string</span><br>   <br>&#125;<br> <br><span class="hljs-keyword">new</span> <span class="hljs-title function_">A</span>()<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>例子2<ul>
+<li>在A类定义了 getName 抽象方法但为实现</li>
+<li>B类实现了A定义的抽象方法，如不实现就不报错；</li>
+<li><strong>我们定义的抽象方法必须在派生类实现</strong><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;<br>   <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span><br>   <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name: <span class="hljs-built_in">string</span></span>) &#123;<br>      <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;<br>   &#125;<br>   <span class="hljs-title function_">print</span>(): <span class="hljs-built_in">string</span> &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span><br>   &#125;<br> <br>   <span class="hljs-keyword">abstract</span> <span class="hljs-title function_">getName</span>(): <span class="hljs-built_in">string</span><br>&#125;<br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">A</span> &#123;<br>   <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br>      <span class="hljs-variable language_">super</span>(<span class="hljs-string">&#x27;小满&#x27;</span>)<br>   &#125;<br>   <span class="hljs-title function_">getName</span>(): <span class="hljs-built_in">string</span> &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span><br>   &#125;<br>&#125;<br> <br><span class="hljs-keyword">let</span> b = <span class="hljs-keyword">new</span> <span class="hljs-title function_">B</span>();<br> <br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(b.<span class="hljs-title function_">getName</span>());<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>完整案例<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">// 1. class 的基本用法 继承 和 类型约束</span><br><span class="hljs-comment">// 2. class 的修饰符 readonly  private protected public</span><br><span class="hljs-comment">// 3. super 原理</span><br><span class="hljs-comment">// 4. 静态方法</span><br><span class="hljs-comment">// 5. get set</span><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Options</span> &#123;<br>    <span class="hljs-attr">el</span>: <span class="hljs-built_in">string</span> | <span class="hljs-title class_">HTMLElement</span><br>&#125;<br> <br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">VueCls</span> &#123;<br>    <span class="hljs-title function_">init</span>(): <span class="hljs-built_in">void</span><br>    <span class="hljs-attr">options</span>: <span class="hljs-title class_">Options</span><br>&#125;<br> <br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Vnode</span> &#123;<br>    <span class="hljs-attr">tag</span>: <span class="hljs-built_in">string</span><br>    text?: <span class="hljs-built_in">string</span><br>    props?: &#123;<br>        id?: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span><br>        key?: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span> | <span class="hljs-built_in">object</span><br>    &#125;<br>    children?: <span class="hljs-title class_">Vnode</span>[]<br>&#125;<br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Dom</span> &#123;<br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;<br> <br>    &#125;<br> <br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">createElement</span>(<span class="hljs-attr">el</span>: <span class="hljs-built_in">string</span>): <span class="hljs-title class_">HTMLElement</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(el)<br>    &#125;<br> <br>    <span class="hljs-keyword">protected</span> <span class="hljs-title function_">setText</span>(<span class="hljs-params">el: Element, text: <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span></span>) &#123;<br>        el.<span class="hljs-property">textContent</span> = text;<br>    &#125;<br> <br>    <span class="hljs-keyword">protected</span> <span class="hljs-title function_">render</span>(<span class="hljs-attr">createElement</span>: <span class="hljs-title class_">Vnode</span>): <span class="hljs-title class_">HTMLElement</span> &#123;<br>        <span class="hljs-keyword">const</span> el = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">createElement</span>(createElement.<span class="hljs-property">tag</span>)<br>        <span class="hljs-keyword">if</span> (createElement.<span class="hljs-property">children</span> &amp;&amp; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(createElement.<span class="hljs-property">children</span>)) &#123;<br>            createElement.<span class="hljs-property">children</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> &#123;<br>                <span class="hljs-keyword">const</span> child = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">render</span>(item)<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setText</span>(child, item.<span class="hljs-property">text</span> ?? <span class="hljs-literal">null</span>)<br>                el.<span class="hljs-title function_">appendChild</span>(child)<br>            &#125;)<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setText</span>(el, createElement.<span class="hljs-property">text</span> ?? <span class="hljs-literal">null</span>)<br>        &#125;<br>        <span class="hljs-keyword">return</span> el;<br>    &#125;<br>&#125;<br> <br> <br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Vue</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Dom</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">VueCls</span> &#123;<br>    <span class="hljs-attr">options</span>: <span class="hljs-title class_">Options</span><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">options: Options</span>) &#123;<br>        <span class="hljs-variable language_">super</span>()<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">options</span> = options;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>()<br>    &#125;<br> <br>   <span class="hljs-keyword">static</span> version () &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;1.0.0&#x27;</span><br>   &#125;<br> <br>   <span class="hljs-keyword">public</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">let</span> app = <span class="hljs-keyword">typeof</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">options</span>.<span class="hljs-property">el</span> == <span class="hljs-string">&#x27;string&#x27;</span> ? <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">options</span>.<span class="hljs-property">el</span>) : <span class="hljs-variable language_">this</span>.<span class="hljs-property">options</span>.<span class="hljs-property">el</span>;<br>        <span class="hljs-keyword">let</span> <span class="hljs-attr">data</span>: <span class="hljs-title class_">Vnode</span> = &#123;<br>            <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,<br>            <span class="hljs-attr">props</span>: &#123;<br>                <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,<br>                <span class="hljs-attr">key</span>: <span class="hljs-number">1</span><br>            &#125;,<br>            <span class="hljs-attr">children</span>: [<br>                &#123;<br>                    <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,<br>                    <span class="hljs-attr">text</span>: <span class="hljs-string">&quot;子集1&quot;</span>,<br>                &#125;,<br>                &#123;<br>                    <span class="hljs-attr">tag</span>: <span class="hljs-string">&quot;div&quot;</span>,<br>                    <span class="hljs-attr">text</span>: <span class="hljs-string">&quot;子集2&quot;</span><br>                &#125;<br>            ]<br>        &#125;<br>        app?.<span class="hljs-title function_">appendChild</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">render</span>(data))<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(app);<br> <br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">mount</span>(app <span class="hljs-keyword">as</span> <span class="hljs-title class_">Element</span>)<br>    &#125;<br> <br>   <span class="hljs-keyword">public</span> <span class="hljs-title function_">mount</span>(<span class="hljs-params">app: Element</span>) &#123;<br>        <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">append</span>(app)<br>    &#125;<br>&#125;<br> <br> <br><span class="hljs-keyword">const</span> v = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Vue</span>(&#123;<br>    <span class="hljs-attr">el</span>: <span class="hljs-string">&quot;#app&quot;</span><br>&#125;)<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0TypeScript/" class="category-chain-item">学习TypeScript</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/TypeScript/">#TypeScript</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>学习TypeScript 8 (Class类)</div>
+      <div>http://example.com/2022/02/24/学习TypeScript 8 (Class类)/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WessonChen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年2月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/04/%E5%9C%A8Vite%E4%B8%AD%E4%BD%BF%E7%94%A8glob%E5%AE%8C%E6%88%90%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90Router%E8%A7%84%E5%88%99/" title="在Vite中使用glob完成自动生成Router规则">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">在Vite中使用glob完成自动生成Router规则</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/24/%E5%AD%A6%E4%B9%A0TypeScript%207%20(%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1)/" title="学习TypeScript 7 (内置对象)">
+                        <span class="hidden-mobile">学习TypeScript 7 (内置对象)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
